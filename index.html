@@ -148,16 +148,18 @@
             text-align: center;
         }
 
-        /* Layout Game Utama */
+        /* Layout Game Utama yang Diperbaiki */
         .game-layout {
             display: none;
             flex-direction: column;
             align-items: center;
+            justify-content: space-between;
             width: 100%;
             min-height: 100vh;
-            padding: 8px 10px;
+            padding: 12px 10px;
             background: #fff;
-            gap: 6px;
+            overflow-y: auto;
+            gap: 12px;
         }
 
         header {
@@ -165,41 +167,42 @@
             flex-shrink: 0;
             display: flex;
             flex-direction: column;
-            gap: 1px;
+            gap: 2px;
         }
 
         header h1 {
             color: #d90429;
-            font-size: 0.95rem;
+            font-size: 1.05rem;
             margin: 0;
             font-weight: 800;
         }
 
         .round-badge {
-            font-size: 0.65rem;
+            font-size: 0.7rem;
             background: #ffe5ec;
             color: #d90429;
-            padding: 1px 6px;
-            border-radius: 8px;
+            padding: 2px 8px;
+            border-radius: 10px;
             font-weight: bold;
             display: inline-block;
             align-self: center;
         }
 
-        /* Mengatur ukuran papan agar tidak terlalu besar dan menutupi panel */
         .board-container {
             display: flex;
             align-items: center;
             justify-content: center;
             width: 100%;
-            flex-grow: 1;
+            max-width: 100%;
+            padding: 4px 0;
         }
 
+        /* Menggunakan 92vw agar papan tidak melebar keluar layar */
         .board-wrapper {
             position: relative;
             aspect-ratio: 1 / 1;
-            width: 100%;
-            max-width: min(85vw, 62vh);
+            width: 92vw;
+            max-width: 420px;
             background-color: #d90429;
             padding: 3px;
             border-radius: 8px;
@@ -234,7 +237,7 @@
             flex-direction: column;
             justify-content: space-between;
             padding: 1px;
-            font-size: clamp(0.32rem, 1.1vw, 0.45rem);
+            font-size: clamp(0.35rem, 1.2vw, 0.48rem);
             font-weight: bold;
             position: relative;
             border: 1px solid #ffccd5;
@@ -250,29 +253,29 @@
         }
 
         .cell-icon {
-            font-size: clamp(0.9rem, 3.5vw, 0.55rem);
+            font-size: clamp(1.0rem, 3.9vw, 0.6rem);
             text-align: center;
             line-height: 1;
         }
 
-        /* Panel Kontrol & Tombol Dadu yang Proporsional */
+        /* Panel Kontrol Proporsional */
         .control-panel {
-            width: 100%;
-            max-width: min(85vw, 62vh);
+            width: 92vw;
+            max-width: 420px;
             background: #fff0f3;
             border: 1.5px solid #ffccd5;
-            border-radius: 10px;
-            padding: 6px 10px;
+            border-radius: 12px;
+            padding: 8px 12px;
             display: flex;
             align-items: center;
             justify-content: space-between;
             box-shadow: 0 4px 12px rgba(217, 4, 41, 0.15);
             flex-shrink: 0;
-            margin-bottom: 10px;
+            margin-bottom: 20px;
         }
 
         .player-badge {
-            padding: 4px 6px;
+            padding: 5px 8px;
             border-radius: 6px;
             background: #fff;
             border: 1px solid #ffccd5;
@@ -282,8 +285,8 @@
             gap: 1px;
             color: #800f2f;
             font-weight: bold;
-            font-size: 0.58rem;
-            min-width: 65px;
+            font-size: 0.6rem;
+            min-width: 70px;
         }
 
         .player-badge.active {
@@ -296,21 +299,21 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 1px;
+            gap: 2px;
         }
 
         .dice-btn {
-            width: 48px;
-            height: 48px;
-            border: 2px solid #fff;
-            border-radius: 12px;
+            width: 54px;
+            height: 54px;
+            border: 2.5px solid #fff;
+            border-radius: 14px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.4rem;
+            font-size: 1.6rem;
             color: white;
             cursor: pointer;
-            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
             transition: background 0.3s ease;
         }
 
@@ -327,7 +330,7 @@
         }
 
         .dadu-status-text {
-            font-size: 0.55rem;
+            font-size: 0.6rem;
             font-weight: bold;
             color: #800f2f;
         }
@@ -337,22 +340,22 @@
             bottom: 2px;
             right: 2px;
             display: flex;
-            gap: 2px;
+            gap: 3px;
             z-index: 10;
         }
 
         .token {
-            width: clamp(14px, 3.8vw, 20px);
-            height: clamp(14px, 3.8vw, 20px);
+            width: clamp(16px, 4.2vw, 24px);
+            height: clamp(16px, 4.2vw, 24px);
             border-radius: 50%;
-            border: 1.5px solid white;
-            font-size: 10px;
+            border: 2px solid white;
+            font-size: 11px;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
             font-weight: bold;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.4);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.4);
         }
 
         .token-1 { background-color: #ef233c; } 
@@ -450,6 +453,7 @@
 </head>
 <body>
 
+    <!-- LOBBY UTAMA -->
     <div class="lobby-container" id="lobby-screen">
         <div class="lobby-card">
             <h1>Ular Tangga Cinta 💕</h1>
@@ -462,6 +466,7 @@
                 <button class="btn-musik" id="lobby-music-btn" onclick="toggleAudio()">🎵 Play Musik Latar</button>
             </div>
 
+            <!-- Panel Khusus Buat Room Babak 3 LDR -->
             <div class="ldr-online-panel" id="ldr-panel">
                 <p style="font-size: 0.75rem; font-weight: bold; color: #0077b6; margin-bottom: 6px;">🌐 Mode LDR Jarak Jauh (Online)</p>
                 <button class="btn-ldr" onclick="createOnlineRoom()" id="btn-create-room" style="width:100%; margin-bottom:6px;">Buat Room LDR (Host)</button>
@@ -476,6 +481,7 @@
         </div>
     </div>
 
+    <!-- LAYOUT UTAMA PERMAINAN -->
     <div class="game-layout" id="game-screen">
         <header>
             <h1>ULAR TANGGA CINTA 💕</h1>
@@ -507,6 +513,7 @@
         </div>
     </div>
 
+    <!-- Modal Tantangan & Timer -->
     <div class="modal" id="challenge-modal">
         <div class="modal-content">
             <h3 id="modal-title">🔥 Sensasi Intim</h3>
