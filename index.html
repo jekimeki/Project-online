@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Online 1 vs 1</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin-top: 40px; padding: 15px; background: #f4f4f9; }
+        .hidden { display: none; }
+        #game-board { margin: 20px auto; padding: 25px; border: 2px solid #333; width: 85%; max-width: 320px; border-radius: 10px; background: white; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .info-box { font-size: 18px; font-weight: bold; margin: 15px 0; color: #007bff; }
+        input[type="text"] { width: 90%; padding: 10px; margin-bottom: 10px; font-size: 14px; border: 1px solid #ccc; border-radius: 5px; }
+        button { padding: 12px 20px; font-size: 16px; cursor: pointer; border-radius: 5px; background: #28a745; color: white; border: none; font-weight: bold; }
+        button:disabled { background: #ccc; cursor: not-allowed; }
+        .btn-blue { background: #007bff; }
+    </style>
+    <!-- PeerJS untuk koneksi antar perangkat -->
+    <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
+</head>
+<body>
+
+    <h2>Game Online 1 vs 1</h2>
+    
+    <!-- Menu Awal -->
+    <div id="menu">
+        <button class="btn-blue" onclick="createRoom()">Buat Room Baru</button>
+    </div>
+
+    <!-- Area Menunggu -->
+    <div id="waiting-room" class="hidden">
+        <p>Salin link ini dan bagikan ke teman Anda:</p>
+        <input type="text" id="room-link" readonly>
+        <br>
+        <button class="btn-blue" onclick="copyLink()">Salin Link</button>
+        <p><i>Menunggu pemain ke-2 bergabung...</i></p>
+    </div>
+
+    <!-- Area Game & Giliran -->
+    <div id="game-area" class="hidden">
+        <div class="info-box" id="turn-status">Menghubungkan...</div>
+        
+        <div id="game-board">
+            <p>Area Permainan</p>
+            <!-- Tombol tes giliran -->
+            <button id="action-btn" onclick="sendAction()">Lakukan Aksi / Selesai Giliran</button>
+        </div>
+        <p id="log-activity" style="color: gray; font-size: 14px; margin-top: 15px;"></p>
+    </div>
+
+    <script>
+        let peer = null;
+        let conn = null;
+        let isMyTurn = false;
+        let myId = '';
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const roomIdFromURL = urlParams.get('room');
+
+        // Jika dibuka dari link, otomatis jadi Pemain 2 (Guest)
+        if (roomIdFromURL) {
+            document.getElementById('menu').classList.add('hidden');
+            document.getElementById('game-area').classList.remove('hidden');
+            document.getElementById('turn-status').innerText = "Menghubungkan ke Host...";
+            
+            peer = new Peer();
+            peer.on('open', (id) => {
+                myId = id;
+                conn = peer.connect(roomIdFromURL);
+                setupConnection();
+            });
+        }
+
+        // Pemain 1 membuat room
+        function createRoom() {
+            const randomId = 'room_' + Math.random().toString(36).substring(2, 8);
+            peer = new Peer(randomId);
+
+            peer.on('open', (id) => {
+                myId = id;
+                document.getElementById('menu').classList.add('hidden');
+                document.getElementById('waiting-room').classList.remove('hidden');
+
+                const fullLink = window.location.href.split('?')[0] + '?room=' + id;
+                document.getElementById('room-link').value = fullLink;
+            });
+
+            peer.on('connection', (connection) => {
+                conn = connection;
+                setupConnection();
+                
+                isMyTurn = true; // Host jalan duluan
+                updateTurnUI();
+
+                document.getElementById('waiting-room').classList.add('hidden');
+                document.getElementById('game-area').classList.remove('hidden');
+                alert('Pemain ke-2 telah bergabung! Game dimulai.');
+            });
+        }
+
+        function copyLink() {
+            const copyText = document.getElementById('room-link');
+            copyText.select();
+            copyText.setSelectionRange(0, 99999);
+            navigator.clipboard.writeText(copyText.value);
+            alert('Link berhasil disalin!');
+        }
+
+        function setupConnection() {
+            conn.on('open', () => {
+                if (roomIdFromURL) {
+                    document.getElementById('game-area').classList.remove('hidden');
+                    isMyTurn = false; // Guest menunggu giliran host
+                    updateTurnUI();
+                    alert('Berhasil masuk ke room!');
+                }
+            });
+
+            conn.on('data', (data) => {
+                if (data.type === 'action') {
+                    document.getElementById('log-activity').innerText = 'Aksi terakhir: ' + data.message;
+                    isMyTurn = true; // Giliran dikembalikan ke kita
+                    updateTurnUI();
+                }
+            });
+        }
+
+        function sendAction() {
+            if (!isMyTurn) {
+                alert('Bukan giliran Anda!');
+                return;
+            }
+
+            document.getElementById('log-activity').innerText = 'Aksi terakhir: Anda melakukan langkah';
+
+            conn.send({
+                type: 'action',
+                message: 'Lawan melakukan langkah'
+            });
+
+            isMyTurn = false; // Akhiri giliran kita
+            updateTurnUI();
+        }
+
+        function updateTurnUI() {
+            const statusEl = document.getElementById('turn-status');
+            const btnEl = document.getElementById('action-btn');
+
+            if (isMyTurn) {
+                statusEl.innerText = "Giliran Anda!";
+                statusEl.style.color = "green";
+                btnEl.disabled = false;
+            } else {
+                statusEl.innerText = "Giliran Lawan...";
+                statusEl.style.color = "orange";
+                btnEl.disabled = true;
+            }
+        }
+    </script>
+</body>
+</html>
