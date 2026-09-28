@@ -63,6 +63,14 @@
             document.getElementById('turn-status').innerText = "Menghubungkan ke Host...";
             
             peer = new Peer();
+
+            // Tangkap error di sisi Guest
+            peer.on('error', (err) => {
+                console.error(err);
+                alert('Gagal terhubung (Guest): ' + err.type);
+                document.getElementById('turn-status').innerText = "Koneksi Gagal!";
+            });
+
             peer.on('open', (id) => {
                 myId = id;
                 conn = peer.connect(roomIdFromURL);
@@ -74,6 +82,12 @@
         function createRoom() {
             const randomId = 'room_' + Math.random().toString(36).substring(2, 8);
             peer = new Peer(randomId);
+
+            // Tangkap error di sisi Host
+            peer.on('error', (err) => {
+                console.error(err);
+                alert('Gagal membuat room (Host): ' + err.type);
+            });
 
             peer.on('open', (id) => {
                 myId = id;
