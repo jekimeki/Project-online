@@ -13,13 +13,19 @@
             -webkit-tap-highlight-color: transparent;
         }
 
+        /* Latar belakang pink lembut dengan aksen pola cinta estetik */
         html, body {
             width: 100%;
             height: 100vh;
             height: 100dvh;
             overflow: hidden;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #fff;
+            background: linear-gradient(135deg, #fff0f3 0%, #ffccd5 50%, #ffe5ec 100%);
+            background-image: 
+                radial-gradient(#ff758f 0.75px, transparent 0.75px), 
+                radial-gradient(#ff4d6d 0.75px, #fff0f3 0.75px);
+            background-size: 30px 30px;
+            background-position: 0 0, 15px 15px;
             color: #4a1525;
             touch-action: manipulation;
         }
@@ -33,21 +39,22 @@
             height: 100vh;
             height: 100dvh;
             padding: 15px;
-            background: #fff;
+            background: rgba(255, 240, 243, 0.92);
+            backdrop-filter: blur(5px);
             position: absolute;
             top: 0; left: 0;
             z-index: 2000;
         }
 
         .lobby-card {
-            background: #fff;
+            background: #ffffff;
             border: 2px solid #ff758f;
-            border-radius: 18px;
-            padding: 18px 16px;
+            border-radius: 20px;
+            padding: 20px 18px;
             width: 100%;
             max-width: 340px;
             text-align: center;
-            box-shadow: 0 4px 20px rgba(255, 117, 143, 0.25);
+            box-shadow: 0 8px 25px rgba(217, 4, 41, 0.2);
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -55,40 +62,42 @@
 
         .lobby-card h1 {
             color: #ff4d6d;
-            font-size: 1.2rem;
+            font-size: 1.25rem;
             font-weight: 800;
             margin-bottom: 2px;
+            text-shadow: 0 2px 4px rgba(255, 77, 109, 0.15);
         }
 
         .lobby-card .subtitle {
             color: #d90429;
-            font-size: 0.7rem;
+            font-size: 0.72rem;
             font-weight: 600;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
         }
 
         .lobby-btn-group {
             display: flex;
             flex-direction: column;
-            gap: 6px;
+            gap: 7px;
             width: 100%;
             margin-bottom: 10px;
         }
 
         .btn-mulai, .btn-klimaks, .btn-ldr, .btn-musik {
             border: none;
-            padding: 8px;
+            padding: 9px;
             border-radius: 25px;
             font-size: 0.8rem;
             font-weight: bold;
             cursor: pointer;
             width: 100%;
+            transition: transform 0.2s ease;
         }
 
-        .btn-mulai { background: linear-gradient(135deg, #ff4d6d, #d90429); color: white; box-shadow: 0 3px 10px rgba(217, 4, 41, 0.3); }
-        .btn-klimaks { background: linear-gradient(135deg, #7209b7, #3a0ca3); color: white; box-shadow: 0 3px 10px rgba(114, 9, 183, 0.3); }
-        .btn-ldr { background: linear-gradient(135deg, #00b4d8, #0077b6); color: white; box-shadow: 0 3px 10px rgba(0, 180, 216, 0.3); }
-        .btn-musik { background: #ffccd5; color: #d90429; }
+        .btn-mulai { background: linear-gradient(135deg, #ff4d6d, #d90429); color: white; box-shadow: 0 4px 12px rgba(217, 4, 41, 0.3); }
+        .btn-klimaks { background: linear-gradient(135deg, #7209b7, #3a0ca3); color: white; box-shadow: 0 4px 12px rgba(114, 9, 183, 0.3); }
+        .btn-ldr { background: linear-gradient(135deg, #00b4d8, #0077b6); color: white; box-shadow: 0 4px 12px rgba(0, 180, 216, 0.3); }
+        .btn-musik { background: #ffe5ec; color: #d90429; border: 1px solid #ff758f; }
 
         .btn-mulai:active, .btn-klimaks:active, .btn-ldr:active, .btn-musik:active {
             transform: scale(0.97);
@@ -126,7 +135,7 @@
             height: 100vh;
             height: 100dvh;
             padding: 6px 10px;
-            background: #fff;
+            background: transparent;
             overflow: hidden;
         }
 
@@ -139,21 +148,24 @@
         }
 
         header h1 {
-            color: #d90429;
-            font-size: 0.95rem;
+            color: #c9184a;
+            font-size: 0.98rem;
             margin: 0;
             font-weight: 800;
+            text-shadow: 0 1px 3px rgba(255, 255, 255, 0.8);
         }
 
         .round-badge {
             font-size: 0.6rem;
-            background: #ffe5ec;
+            background: #ffffff;
             color: #d90429;
-            padding: 1px 6px;
-            border-radius: 8px;
+            padding: 1px 8px;
+            border-radius: 10px;
             font-weight: bold;
             display: inline-block;
             align-self: center;
+            box-shadow: 0 2px 6px rgba(217, 4, 41, 0.15);
+            border: 1px solid #ffccd5;
         }
 
         .board-container {
@@ -166,7 +178,6 @@
             padding: 2px 0;
         }
 
-        /* Diperbaiki: Menggunakan max(width) yang aman agar tidak terpotong kiri-kanan */
         .board-wrapper {
             position: relative;
             aspect-ratio: 1 / 1;
@@ -174,8 +185,8 @@
             max-width: min(90vw, 72vh);
             background-color: #d90429;
             padding: 2px;
-            border-radius: 6px;
-            box-shadow: 0 3px 12px rgba(217, 4, 41, 0.25);
+            border-radius: 8px;
+            box-shadow: 0 6px 20px rgba(217, 4, 41, 0.3);
         }
 
         .board {
@@ -227,25 +238,26 @@
             line-height: 1;
         }
 
-        /* Panel Kontrol Mengikuti Lebar Papan */
+        /* Panel Kontrol Estetik */
         .control-panel {
             width: 100%;
             max-width: min(90vw, 72vh);
-            background: #fff0f3;
-            border: 1.5px solid #ffccd5;
-            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(5px);
+            border: 1.5px solid #ff758f;
+            border-radius: 12px;
             padding: 6px 10px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            box-shadow: 0 3px 10px rgba(217, 4, 41, 0.15);
+            box-shadow: 0 4px 15px rgba(217, 4, 41, 0.2);
             flex-shrink: 0;
         }
 
         .player-badge {
-            padding: 4px 6px;
-            border-radius: 6px;
-            background: #fff;
+            padding: 5px 8px;
+            border-radius: 8px;
+            background: #fff0f3;
             border: 1px solid #ffccd5;
             display: flex;
             flex-direction: column;
@@ -253,14 +265,21 @@
             gap: 1px;
             color: #800f2f;
             font-weight: bold;
-            font-size: 0.55rem;
-            min-width: 65px;
+            font-size: 0.58rem;
+            min-width: 70px;
+            transition: all 0.3s ease;
+        }
+
+        @keyframes pulseGlow {
+            0% { transform: scale(1); box-shadow: 0 0 4px rgba(217, 4, 41, 0.3); }
+            50% { transform: scale(1.05); box-shadow: 0 0 12px rgba(217, 4, 41, 0.7); background: #ff4d6d; color: #fff; }
+            100% { transform: scale(1); box-shadow: 0 0 4px rgba(217, 4, 41, 0.3); }
         }
 
         .player-badge.active {
             border-color: #d90429;
-            box-shadow: 0 0 6px rgba(217, 4, 41, 0.4);
             background: #ffe5ec;
+            animation: pulseGlow 1.5s infinite ease-in-out;
         }
 
         .dice-area {
@@ -282,12 +301,12 @@
             color: white;
             cursor: pointer;
             box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
-            transition: background 0.3s ease;
+            transition: transform 0.2s ease, background 0.3s ease;
         }
 
         .dice-btn.p1-turn { background: linear-gradient(135deg, #ff4d6d, #d90429); }
         .dice-btn.p2-turn { background: linear-gradient(135deg, #4ea8de, #3a86ff); }
-        .dice-btn:active { transform: scale(0.95); }
+        .dice-btn:active { transform: scale(0.92); }
 
         .dadu-status-text {
             font-size: 0.55rem;
@@ -534,6 +553,15 @@
                     startGame(3);
                 } else if (data.type === 'roll-dice') {
                     executeMove(data.player, data.steps, data.targetPos);
+                } else if (data.type === 'show-modal') {
+                    // Tamu menerima perintah menampilkan modal tanpa tombol interaktif (hanya baca)
+                    showModalRemote(data.title, data.text, data.seconds, data.illustration);
+                } else if (data.type === 'start-timer') {
+                    // Tamu menerima perintah memulai hitung mundur timer
+                    startTimerCountdownRemote(data.seconds);
+                } else if (data.type === 'close-modal') {
+                    // Tamu menerima perintah menutup modal secara serentak
+                    closeModalRemote();
                 }
             });
         }
@@ -639,6 +667,46 @@
             gain.connect(audioCtx.destination);
             osc.start();
             osc.stop(audioCtx.currentTime + 0.08);
+        }
+
+        function playLadderSound() {
+            initAudio();
+            if (!audioCtx) return;
+            const notes = [300, 450, 600, 750, 900];
+            notes.forEach((freq, idx) => {
+                setTimeout(() => {
+                    let osc = audioCtx.createOscillator();
+                    let gain = audioCtx.createGain();
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+                    gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.12);
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    osc.start();
+                    osc.stop(audioCtx.currentTime + 0.12);
+                }, idx * 80);
+            });
+        }
+
+        function playSnakeSound() {
+            initAudio();
+            if (!audioCtx) return;
+            const notes = [800, 650, 500, 350, 200];
+            notes.forEach((freq, idx) => {
+                setTimeout(() => {
+                    let osc = audioCtx.createOscillator();
+                    let gain = audioCtx.createGain();
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+                    gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.12);
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    osc.start();
+                    osc.stop(audioCtx.currentTime + 0.12);
+                }, idx * 80);
+            });
         }
 
         function playAlarmSound() {
@@ -787,7 +855,7 @@
             84: "📱🐍 <b>Hukuman Ular LDR (84):</b> Buka paha lebar-lebar di depan video call sambil merangsang diri sendiri.",
             90: "📱🐍 <b>Hukuman Ular LDR (90):</b> Wajib melakukan solo play sampai giliran dadu berikutnya dimulai.",
             95: "📱🐍 <b>Hukuman Ular LDR (95):</b> Telanjang bulat total di depan kamera dan tunjukkan seluruh tubuhmu.",
-            99: "📱🐍 <b>Hukuman Ular LDR (99):</b> Sanksi Maksimal: Capai klimaks sendirian di depan kamera sekarang juga!"
+            99: "📱🐍 <b>Hukuman Ular LDR (99):</b> Lakukan teasing ekstrem menggunakan mainan dewasa atau jari di depan kamera dengan tempo lambat, dilarang klimaks sampai permainan selesai!"
         };
 
         const specialTiles = {
@@ -962,8 +1030,10 @@
                     clearInterval(interval);
                     let finalPos = positions[p];
                     
-                    if (currentRound === 2 && finalPos >= 67 && finalPos <= 100 && round2Missions[finalPos]) {
-                        if (level3Collected[p] < 11) level3Collected[p]++;
+                    if (currentRound === 2 && finalPos >= 69 && finalPos <= 100 && round2Missions[finalPos]) {
+                        if (level3Collected[p] < 11) {
+                            level3Collected[p]++;
+                        }
                     }
 
                     if (currentRound === 2 && round2Missions[finalPos]) {
@@ -975,6 +1045,12 @@
                     } else if (specialTiles[finalPos]) {
                         setTimeout(() => {
                             let tile = specialTiles[finalPos];
+                            if (tile.type === 'ladder') {
+                                playLadderSound();
+                            } else {
+                                playSnakeSound();
+                            }
+
                             let msg = tile.type === 'snake' ? (currentRound === 3 ? ldrSnakePunishments[finalPos] : snakePunishments[finalPos]) : (currentRound === 3 ? ldrLadderRewards[finalPos] + `<br>Naik ke petak ${tile.target}` : ladderRewards[finalPos] + `<br>Naik ke petak ${tile.target}`);
                             showModal(tile.type === 'snake' ? `⚠️ Ujian Ular (${finalPos})` : `🎁 Bonus Tangga (${finalPos})`, msg, 30, "");
                             positions[p] = tile.target;
@@ -990,25 +1066,95 @@
 
         function checkWin() {
             if (positions[currentPlayer] === BOARD_SIZE) {
-                isGameOver = true;
-                showModal("👑 Permainan Selesai!", `${playerNames[currentPlayer]} mencapai petak 100!`, 0, "", true);
+                let winnerName = playerNames[currentPlayer];
+                let loserName = currentPlayer === 0 ? playerNames[1] : playerNames[0];
+                
+                if (currentRound === 1) {
+                    isGameOver = true;
+                    showWinModal(winnerName, loserName);
+                } else if (currentRound === 2) {
+                    if (level3Collected[currentPlayer] >= 11) {
+                        isGameOver = true;
+                        showBabak2WinModal(winnerName);
+                    } else {
+                        showModal("⚠️ Belum Bisa Menang!", `${winnerName} baru mengumpulkan ${level3Collected[currentPlayer]} dari 11 posisi Level 3!<br>Kamu harus melengkapi seluruh 11 posisi Level 3 terlebih dahulu untuk meraih kemenangan mutlak.`, 0, "");
+                        switchTurn();
+                        isRolling = false;
+                    }
+                } else {
+                    isGameOver = true;
+                    showModal("👑 Permainan Selesai!", `${winnerName} mencapai petak 100! Waktunya Klimaks Bersama! 🎉`, 0, "", true);
+                }
                 return;
             }
             switchTurn();
             isRolling = false;
         }
 
+        function showBabak2WinModal(winner) {
+            document.getElementById('modal-title').innerHTML = `👑 LUAR BIASA! ${winner} MENANG BABAK 2!`;
+            document.getElementById('modal-text').innerHTML = `
+                🎉 <b>Selamat!</b> Kamu telah berhasil menaklukkan seluruh 33 misi dan merasakan ke-11 posisi intim di Level 3 bersama pasanganmu!<br><br>
+                💖 Malam ini kalian resmi menjadi Raja & Ratu Penuh Cinta! Nikmati klimaks dan kemesraan tanpa batas.
+            `;
+            document.getElementById('modal-illustration-container').innerHTML = '';
+            document.getElementById('timer-box').style.display = 'none';
+            document.getElementById('challenge-modal').style.display = 'flex';
+
+            const btnGroup = document.getElementById('modal-btn-container');
+            btnGroup.innerHTML = `<button class="btn-action" onclick="backToLobby()">🏠 Kembali ke Lobi</button>`;
+        }
+
+        function backToLobby() {
+            closeModal();
+            document.getElementById('game-screen').style.display = 'none';
+            document.getElementById('lobby-screen').style.display = 'flex';
+            document.getElementById('normal-menu-buttons').style.display = 'flex';
+            document.getElementById('ldr-panel').style.display = 'none';
+            document.getElementById('btn-create-room').style.display = 'block';
+            document.getElementById('share-link-area').style.display = 'none';
+            document.getElementById('lobby-subtitle').innerText = "Pilih Mode Permainan";
+        }
+
+        function showWinModal(winner, loser) {
+            document.getElementById('modal-title').innerHTML = `👑 ${winner} Menang Babak 1!`;
+            document.getElementById('modal-text').innerHTML = `
+                🎁 <b>Hadiah Pemenang:</b> ${winner} berhak mendapatkan <b>pijatan selama 3 menit</b>!<br><br>
+                🔥 <b>Hukuman:</b> ${loser} wajib <b>melepas semua baju</b> sekarang juga!
+            `;
+            document.getElementById('modal-illustration-container').innerHTML = '';
+            document.getElementById('challenge-modal').style.display = 'flex';
+
+            if (countdownInterval) clearInterval(countdownInterval);
+
+            const timerBox = document.getElementById('timer-box');
+            const btnGroup = document.getElementById('modal-btn-container');
+
+            currentTimerSeconds = 180; 
+            let m = Math.floor(currentTimerSeconds / 60);
+            let s = currentTimerSeconds % 60;
+            timerBox.style.display = 'block';
+            timerBox.innerText = `${m}:${s < 10 ? '0' : ''}${s}`;
+
+            btnGroup.innerHTML = `
+                <button class="btn-start-timer" onclick="startTimerCountdown()">▶ Mulai Timer Pijat (3 Menit)</button>
+                <button class="btn-skip" onclick="skipWinTimer()">Skip ⏭</button>
+            `;
+        }
+
         function switchTurn() {
             currentPlayer = currentPlayer === 0 ? 1 : 0;
             const diceBtn = document.getElementById('dice-btn');
+            const p1Card = document.getElementById('p1-card');
+            const p2Card = document.getElementById('p2-card');
             
             if (currentPlayer === 0) {
-                document.getElementById('p1-card').classList.add('active');
-                document.getElementById('p2-card').classList.remove('active');
+                p1Card.classList.add('active');
+                p2Card.classList.remove('active');
                 diceBtn.className = "dice-btn p1-turn";
             } else {
-                document.getElementById('p2-card').classList.add('active');
-                document.getElementById('p1-card').classList.remove('active');
+                p2Card.classList.add('active');
+                p1Card.classList.remove('active');
                 diceBtn.className = "dice-btn p2-turn";
             }
             updateTurnPermissions();
@@ -1017,6 +1163,17 @@
         let currentTimerSeconds = 120;
 
         function showModal(title, text, seconds = 120, illustration = "", isFinalWin = false) {
+            // Jika Mode LDR Online dan yang memanggil bukan Host, kirim sinyal ke peer agar sinkron
+            if (isOnlineLDR && isHost && conn && conn.open) {
+                conn.send({
+                    type: 'show-modal',
+                    title: title,
+                    text: text,
+                    seconds: seconds,
+                    illustration: illustration
+                });
+            }
+
             document.getElementById('modal-title').innerHTML = title;
             document.getElementById('modal-text').innerHTML = text;
             document.getElementById('modal-illustration-container').innerHTML = illustration ? `<div class="modal-illustration">${illustration}</div>` : '';
@@ -1029,7 +1186,13 @@
 
             if (isFinalWin) {
                 timerBox.style.display = 'none';
-                btnGroup.innerHTML = `<button class="btn-action" onclick="closeModal()">Tutup ✨</button>`;
+                btnGroup.innerHTML = isOnlineLDR && !isHost ? `<p style="font-size:0.65rem; color:#d90429; font-weight:bold;">Menunggu Host menutup game...</p>` : `<button class="btn-action" onclick="closeModal()">🏠 Kembali ke Lobi</button>`;
+                return;
+            }
+
+            if (seconds === 0) {
+                timerBox.style.display = 'none';
+                btnGroup.innerHTML = isOnlineLDR && !isHost ? `<p style="font-size:0.65rem; color:#d90429; font-weight:bold;">Menunggu Host melanjutkan...</p>` : `<button class="btn-action" onclick="closeModal()">Lanjutkan ✨</button>`;
                 return;
             }
 
@@ -1039,18 +1202,72 @@
             timerBox.style.display = 'block';
             timerBox.innerText = m > 0 ? `${m}:${s < 10 ? '0' : ''}${s}` : `${seconds}s`;
 
-            btnGroup.innerHTML = `
-                <button class="btn-start-timer" onclick="startTimerCountdown()">▶ Mulai Tantangan</button>
-                <button class="btn-skip" onclick="closeModal()">Skip ⏭</button>
-            `;
+            // Jika di LDR Online dan ini perangkat Tamu (P2), sembunyikan tombol kontrol interaktif
+            if (isOnlineLDR && !isHost) {
+                btnGroup.innerHTML = `<p style="font-size:0.65rem; color:#d90429; font-weight:bold;">Menunggu Host mengontrol timer...</p>`;
+            } else {
+                btnGroup.innerHTML = `
+                    <button class="btn-start-timer" onclick="startTimerCountdown()">▶ Mulai Tantangan</button>
+                    <button class="btn-skip" onclick="closeModal()">Skip ⏭</button>
+                `;
+            }
+        }
+
+        // Fungsi khusus untuk Tamu (P2) menerima tampilan modal dari Host
+        function showModalRemote(title, text, seconds, illustration) {
+            document.getElementById('modal-title').innerHTML = title;
+            document.getElementById('modal-text').innerHTML = text;
+            document.getElementById('modal-illustration-container').innerHTML = illustration ? `<div class="modal-illustration">${illustration}</div>` : '';
+            document.getElementById('challenge-modal').style.display = 'flex';
+
+            const timerBox = document.getElementById('timer-box');
+            const btnGroup = document.getElementById('modal-btn-container');
+            
+            if (seconds === 0) {
+                timerBox.style.display = 'none';
+            } else {
+                currentTimerSeconds = seconds;
+                let m = Math.floor(seconds / 60);
+                let s = seconds % 60;
+                timerBox.style.display = 'block';
+                timerBox.innerText = m > 0 ? `${m}:${s < 10 ? '0' : ''}${s}` : `${seconds}s`;
+            }
+            btnGroup.innerHTML = `<p style="font-size:0.65rem; color:#d90429; font-weight:bold;">Menunggu Host mengontrol timer...</p>`;
         }
 
         function startTimerCountdown() {
+            if (isOnlineLDR && isHost && conn && conn.open) {
+                conn.send({
+                    type: 'start-timer',
+                    seconds: currentTimerSeconds
+                });
+            }
+            runCountdownLogic(currentTimerSeconds);
+        }
+
+        function startTimerCountdownRemote(seconds) {
+            runCountdownLogic(seconds);
+        }
+
+        function runCountdownLogic(seconds) {
             const timerBox = document.getElementById('timer-box');
             const btnGroup = document.getElementById('modal-btn-container');
-            btnGroup.innerHTML = `<button class="btn-skip" onclick="closeModal()">Skip ⏭</button>`;
+            
+            let isWinModal = document.getElementById('modal-title').innerText.includes("Menang Babak 1");
 
-            let timeLeft = currentTimerSeconds;
+            if (isOnlineLDR && !isHost) {
+                btnGroup.innerHTML = `<p style="font-size:0.65rem; color:#d90429; font-weight:bold;">Timer sedang berjalan oleh Host...</p>`;
+            } else {
+                if (isWinModal) {
+                    btnGroup.innerHTML = `<button class="btn-skip" onclick="skipWinTimer()">Skip ⏭</button>`;
+                } else {
+                    btnGroup.innerHTML = `<button class="btn-skip" onclick="closeModal()">Skip ⏭</button>`;
+                }
+            }
+
+            let timeLeft = seconds;
+            if (countdownInterval) clearInterval(countdownInterval);
+
             countdownInterval = setInterval(() => {
                 timeLeft--;
                 if (timeLeft > 0) {
@@ -1061,12 +1278,36 @@
                     timerBox.innerText = "Waktu Selesai! 🎉";
                     clearInterval(countdownInterval);
                     playAlarmSound();
-                    btnGroup.innerHTML = `<button class="btn-action" onclick="closeModal()">Lanjutkan ✨</button>`;
+                    
+                    if (isOnlineLDR && !isHost) {
+                        btnGroup.innerHTML = `<p style="font-size:0.65rem; color:#d90429; font-weight:bold;">Menunggu Host melanjutkan...</p>`;
+                    } else {
+                        if (isWinModal) {
+                            btnGroup.innerHTML = `<button class="btn-action" onclick="closeModal(); startGame(2);">⚡ Lanjut ke Babak 2</button>`;
+                        } else {
+                            btnGroup.innerHTML = `<button class="btn-action" onclick="closeModal()">Lanjutkan ✨</button>`;
+                        }
+                    }
                 }
             }, 1000);
         }
 
+        function skipWinTimer() {
+            if (isOnlineLDR && isHost && conn && conn.open) {
+                conn.send({ type: 'close-modal' });
+            }
+            closeModal();
+            startGame(2);
+        }
+
         function closeModal() {
+            if (isOnlineLDR && isHost && conn && conn.open) {
+                conn.send({ type: 'close-modal' });
+            }
+            closeModalRemote();
+        }
+
+        function closeModalRemote() {
             if (countdownInterval) clearInterval(countdownInterval);
             document.getElementById('challenge-modal').style.display = 'none';
             isRolling = false;
