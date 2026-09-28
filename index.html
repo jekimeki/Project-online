@@ -483,14 +483,27 @@
             document.getElementById('btn-create-room').style.display = 'none';
             document.getElementById('waiting-text').innerText = "Menghubungkan ke partner...";
 
-            peer = new Peer();
+            // Inisialisasi PeerJS untuk Tamu dengan konfigurasi server publik yang stabil
+            peer = new Peer({
+                config: {'iceServers': [{ urls: 'stun:stun.l.google.com:19302' }, { urls: 'stun:global.stun.twilio.com:3478' }]}
+            });
+
             peer.on('open', (id) => {
-                conn = peer.connect(roomIdFromURL);
-                setupPeerConnection();
+                connectToHost(roomIdFromURL);
             });
+
             peer.on('error', (err) => {
-                alert('Gagal terhubung ke room: ' + err.type);
+                document.getElementById('lobby-subtitle').innerText = "Gagal terhubung: " + err.type;
+                // Tambahkan tombol muat ulang manual jika koneksi terhambat
+                document.getElementById('ldr-panel').innerHTML += `<button class="btn-mulai" onclick="location.reload()" style="margin-top:5px; padding:6px; font-size:0.7rem;">Coba Sambungkan Ulang</button>`;
             });
+        }
+
+        function connectToHost(hostId) {
+            if (conn && conn.open) return;
+            document.getElementById('lobby-subtitle').innerText = "Menghubungkan ke Host...";
+            conn = peer.connect(hostId, { reliable: true });
+            setupPeerConnection();
         }
 
         function showLDROnlineMenu() {
@@ -508,7 +521,10 @@
             myRole = 'p1';
             isHost = true;
             const randomId = 'ldr_cinta_' + Math.random().toString(36).substring(2, 8);
-            peer = new Peer(randomId);
+            
+            peer = new Peer(randomId, {
+                config: {'iceServers': [{ urls: 'stun:stun.l.google.com:19302' }, { urls: 'stun:global.stun.twilio.com:3478' }]}
+            });
 
             peer.on('open', (id) => {
                 document.getElementById('btn-create-room').style.display = 'none';
@@ -523,9 +539,11 @@
                 document.getElementById('waiting-text').innerText = "Partner terhubung! Memulai...";
                 
                 setTimeout(() => {
-                    conn.send({ type: 'start-ldr' });
+                    if (conn && conn.open) {
+                        conn.send({ type: 'start-ldr' });
+                    }
                     startGame(3);
-                }, 1000);
+                }, 800);
             });
 
             peer.on('error', (err) => {
@@ -542,9 +560,13 @@
         }
 
         function setupPeerConnection() {
+            if (!conn) return;
+
             conn.on('open', () => {
+                document.getElementById('lobby-subtitle').innerText = "Berhasil Terhubung!";
                 if (!isHost) {
-                    document.getElementById('lobby-subtitle').innerText = "Berhasil Terhubung! Menunggu Host...";
+                    // Beritahu tamu bahwa koneksi sukses, tunggu aba-aba startGame dari host
+                    document.getElementById('waiting-text').innerText = "Terhubung! Menunggu Host memulai permainan...";
                 }
             });
 
@@ -554,15 +576,17 @@
                 } else if (data.type === 'roll-dice') {
                     executeMove(data.player, data.steps, data.targetPos);
                 } else if (data.type === 'show-modal') {
-                    // Tamu menerima perintah menampilkan modal tanpa tombol interaktif (hanya baca)
                     showModalRemote(data.title, data.text, data.seconds, data.illustration);
                 } else if (data.type === 'start-timer') {
-                    // Tamu menerima perintah memulai hitung mundur timer
                     startTimerCountdownRemote(data.seconds);
                 } else if (data.type === 'close-modal') {
-                    // Tamu menerima perintah menutup modal secara serentak
                     closeModalRemote();
                 }
+            });
+
+            conn.on('close', () => {
+                alert("Koneksi dengan pasangan terputus.");
+                location.reload();
             });
         }
 
@@ -1163,7 +1187,6 @@
         let currentTimerSeconds = 120;
 
         function showModal(title, text, seconds = 120, illustration = "", isFinalWin = false) {
-            // Jika Mode LDR Online dan yang memanggil bukan Host, kirim sinyal ke peer agar sinkron
             if (isOnlineLDR && isHost && conn && conn.open) {
                 conn.send({
                     type: 'show-modal',
@@ -1202,7 +1225,6 @@
             timerBox.style.display = 'block';
             timerBox.innerText = m > 0 ? `${m}:${s < 10 ? '0' : ''}${s}` : `${seconds}s`;
 
-            // Jika di LDR Online dan ini perangkat Tamu (P2), sembunyikan tombol kontrol interaktif
             if (isOnlineLDR && !isHost) {
                 btnGroup.innerHTML = `<p style="font-size:0.65rem; color:#d90429; font-weight:bold;">Menunggu Host mengontrol timer...</p>`;
             } else {
@@ -1213,7 +1235,6 @@
             }
         }
 
-        // Fungsi khusus untuk Tamu (P2) menerima tampilan modal dari Host
         function showModalRemote(title, text, seconds, illustration) {
             document.getElementById('modal-title').innerHTML = title;
             document.getElementById('modal-text').innerHTML = text;
