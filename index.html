@@ -415,7 +415,13 @@
                     <button class="btn-mulai" onclick="copyRoomLink()" style="padding: 6px; font-size: 0.7rem; width:100%; margin-bottom:4px;">Salin Link Undangan</button>
                     <p style="font-size: 0.6rem; color: #d90429;" id="waiting-text">Menunggu pasangan...</p>
                 </div>
-                <button class="btn-musik" onclick="backToNormalMenu()" style="width:100%; font-size:0.7rem; padding:5px;">← Kembali</button>
+                
+                <!-- Tombol manual darurat jika tamu ingin memaksa masuk begitu terhubung -->
+                <div id="manual-start-area" style="display:none; margin-top: 5px;">
+                    <button class="btn-mulai" onclick="startGame(3)" style="background: linear-gradient(135deg, #00b4d8, #0077b6); font-size:0.75rem; padding:8px;">▶ Masuk ke Permainan Sekarang</button>
+                </div>
+
+                <button class="btn-musik" onclick="backToNormalMenu()" style="width:100%; font-size:0.7rem; padding:5px; margin-top: 5px;">← Kembali</button>
             </div>
         </div>
     </div>
@@ -541,7 +547,7 @@
                         conn.send({ type: 'start-ldr' });
                     }
                     startGame(3);
-                }, 500);
+                }, 400);
             });
 
             peer.on('error', (err) => {
@@ -563,13 +569,14 @@
             conn.on('open', () => {
                 document.getElementById('lobby-subtitle').innerText = "Berhasil Terhubung!";
                 if (!isHost) {
-                    document.getElementById('waiting-text').innerText = "Terhubung! Menunggu Host memulai permainan...";
+                    document.getElementById('waiting-text').innerText = "Terhubung dengan Host!";
+                    // Tampilkan tombol manual agar tamu bisa klik langsung jika otomatis tertunda
+                    document.getElementById('manual-start-area').style.display = 'block';
                 }
             });
 
             conn.on('data', (data) => {
                 if (data.type === 'start-ldr') {
-                    // Tamu menerima sinyal start dari host, otomatis masuk ke permainan
                     startGame(3);
                 } else if (data.type === 'roll-dice') {
                     executeMove(data.player, data.steps, data.targetPos);
