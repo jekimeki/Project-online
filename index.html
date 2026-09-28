@@ -2,21 +2,17 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <!-- Diperbarui: Mencegah zoom dengan user-scalable=no dan maximum-scale=1.0 -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Ular Tangga Cinta💕</title>
-    <!-- PeerJS untuk koneksi online khusus Babak 3 LDR -->
     <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
     <style>
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            /* Mencegah highlight biru/abu-abu saat ditekan di HP */
             -webkit-tap-highlight-color: transparent;
         }
 
-        /* Mengunci seluruh dokumen agar tidak bisa di-zoom, tapi tetap bisa di-scroll ke bawah */
         html, body {
             width: 100%;
             min-height: 100%;
@@ -24,8 +20,8 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: #fff;
             color: #4a1525;
-            padding-bottom: 30px;
-            touch-action: manipulation; /* Mencegah jeda dan zoom akibat double-tap */
+            padding-bottom: 20px;
+            touch-action: manipulation;
         }
 
         /* Lobby / Menu Utama */
@@ -159,9 +155,9 @@
             align-items: center;
             width: 100%;
             min-height: 100vh;
-            padding: 10px;
+            padding: 8px 10px;
             background: #fff;
-            gap: 12px;
+            gap: 6px;
         }
 
         header {
@@ -169,40 +165,41 @@
             flex-shrink: 0;
             display: flex;
             flex-direction: column;
-            gap: 2px;
+            gap: 1px;
         }
 
         header h1 {
             color: #d90429;
-            font-size: 1.05rem;
+            font-size: 0.95rem;
             margin: 0;
             font-weight: 800;
         }
 
         .round-badge {
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             background: #ffe5ec;
             color: #d90429;
-            padding: 2px 8px;
-            border-radius: 10px;
+            padding: 1px 6px;
+            border-radius: 8px;
             font-weight: bold;
             display: inline-block;
             align-self: center;
         }
 
+        /* Mengatur ukuran papan agar tidak terlalu besar dan menutupi panel */
         .board-container {
             display: flex;
             align-items: center;
             justify-content: center;
             width: 100%;
-            max-width: 400px;
-            padding: 2px 0;
+            flex-grow: 1;
         }
 
         .board-wrapper {
             position: relative;
             aspect-ratio: 1 / 1;
             width: 100%;
+            max-width: min(85vw, 62vh);
             background-color: #d90429;
             padding: 3px;
             border-radius: 8px;
@@ -237,7 +234,7 @@
             flex-direction: column;
             justify-content: space-between;
             padding: 1px;
-            font-size: clamp(0.35rem, 1.2vw, 0.48rem);
+            font-size: clamp(0.32rem, 1.1vw, 0.45rem);
             font-weight: bold;
             position: relative;
             border: 1px solid #ffccd5;
@@ -253,29 +250,29 @@
         }
 
         .cell-icon {
-            font-size: clamp(1.0rem, 3.9vw, 0.6rem);
+            font-size: clamp(0.9rem, 3.5vw, 0.55rem);
             text-align: center;
             line-height: 1;
         }
 
-        /* Panel Kontrol & Tombol Dadu */
+        /* Panel Kontrol & Tombol Dadu yang Proporsional */
         .control-panel {
             width: 100%;
-            max-width: 400px;
+            max-width: min(85vw, 62vh);
             background: #fff0f3;
             border: 1.5px solid #ffccd5;
             border-radius: 10px;
-            padding: 8px 12px;
+            padding: 6px 10px;
             display: flex;
             align-items: center;
             justify-content: space-between;
             box-shadow: 0 4px 12px rgba(217, 4, 41, 0.15);
             flex-shrink: 0;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
         }
 
         .player-badge {
-            padding: 5px 8px;
+            padding: 4px 6px;
             border-radius: 6px;
             background: #fff;
             border: 1px solid #ffccd5;
@@ -285,8 +282,8 @@
             gap: 1px;
             color: #800f2f;
             font-weight: bold;
-            font-size: 0.6rem;
-            min-width: 70px;
+            font-size: 0.58rem;
+            min-width: 65px;
         }
 
         .player-badge.active {
@@ -299,21 +296,21 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 2px;
+            gap: 1px;
         }
 
         .dice-btn {
-            width: 54px;
-            height: 54px;
-            border: 2.5px solid #fff;
-            border-radius: 14px;
+            width: 48px;
+            height: 48px;
+            border: 2px solid #fff;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.6rem;
+            font-size: 1.4rem;
             color: white;
             cursor: pointer;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
             transition: background 0.3s ease;
         }
 
@@ -330,7 +327,7 @@
         }
 
         .dadu-status-text {
-            font-size: 0.6rem;
+            font-size: 0.55rem;
             font-weight: bold;
             color: #800f2f;
         }
@@ -340,26 +337,26 @@
             bottom: 2px;
             right: 2px;
             display: flex;
-            gap: 3px;
+            gap: 2px;
             z-index: 10;
         }
 
         .token {
-            width: clamp(16px, 4.2vw, 24px);
-            height: clamp(16px, 4.2vw, 24px);
+            width: clamp(14px, 3.8vw, 20px);
+            height: clamp(14px, 3.8vw, 20px);
             border-radius: 50%;
-            border: 2px solid white;
-            font-size: 11px;
+            border: 1.5px solid white;
+            font-size: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
             font-weight: bold;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.4);
         }
 
-        .token-1 { background-color: #ef233c; } /* Pria */
-        .token-2 { background-color: #3a86ff; } /* Wanita */
+        .token-1 { background-color: #ef233c; } 
+        .token-2 { background-color: #3a86ff; } 
 
         .modal {
             display: none;
@@ -453,7 +450,6 @@
 </head>
 <body>
 
-    <!-- LOBBY UTAMA -->
     <div class="lobby-container" id="lobby-screen">
         <div class="lobby-card">
             <h1>Ular Tangga Cinta 💕</h1>
@@ -466,7 +462,6 @@
                 <button class="btn-musik" id="lobby-music-btn" onclick="toggleAudio()">🎵 Play Musik Latar</button>
             </div>
 
-            <!-- Panel Khusus Buat Room Babak 3 LDR -->
             <div class="ldr-online-panel" id="ldr-panel">
                 <p style="font-size: 0.75rem; font-weight: bold; color: #0077b6; margin-bottom: 6px;">🌐 Mode LDR Jarak Jauh (Online)</p>
                 <button class="btn-ldr" onclick="createOnlineRoom()" id="btn-create-room" style="width:100%; margin-bottom:6px;">Buat Room LDR (Host)</button>
@@ -481,7 +476,6 @@
         </div>
     </div>
 
-    <!-- LAYOUT UTAMA PERMAINAN -->
     <div class="game-layout" id="game-screen">
         <header>
             <h1>ULAR TANGGA CINTA 💕</h1>
@@ -513,7 +507,6 @@
         </div>
     </div>
 
-    <!-- Modal Tantangan & Timer -->
     <div class="modal" id="challenge-modal">
         <div class="modal-content">
             <h3 id="modal-title">🔥 Sensasi Intim</h3>
