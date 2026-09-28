@@ -483,7 +483,6 @@
             document.getElementById('btn-create-room').style.display = 'none';
             document.getElementById('waiting-text').innerText = "Menghubungkan ke partner...";
 
-            // Inisialisasi PeerJS untuk Tamu dengan konfigurasi server publik yang stabil
             peer = new Peer({
                 config: {'iceServers': [{ urls: 'stun:stun.l.google.com:19302' }, { urls: 'stun:global.stun.twilio.com:3478' }]}
             });
@@ -494,8 +493,6 @@
 
             peer.on('error', (err) => {
                 document.getElementById('lobby-subtitle').innerText = "Gagal terhubung: " + err.type;
-                // Tambahkan tombol muat ulang manual jika koneksi terhambat
-                document.getElementById('ldr-panel').innerHTML += `<button class="btn-mulai" onclick="location.reload()" style="margin-top:5px; padding:6px; font-size:0.7rem;">Coba Sambungkan Ulang</button>`;
             });
         }
 
@@ -538,12 +535,13 @@
                 setupPeerConnection();
                 document.getElementById('waiting-text').innerText = "Partner terhubung! Memulai...";
                 
+                // Host langsung masuk permainan dan mengirim perintah start ke tamu
                 setTimeout(() => {
                     if (conn && conn.open) {
                         conn.send({ type: 'start-ldr' });
                     }
                     startGame(3);
-                }, 800);
+                }, 500);
             });
 
             peer.on('error', (err) => {
@@ -565,13 +563,13 @@
             conn.on('open', () => {
                 document.getElementById('lobby-subtitle').innerText = "Berhasil Terhubung!";
                 if (!isHost) {
-                    // Beritahu tamu bahwa koneksi sukses, tunggu aba-aba startGame dari host
                     document.getElementById('waiting-text').innerText = "Terhubung! Menunggu Host memulai permainan...";
                 }
             });
 
             conn.on('data', (data) => {
                 if (data.type === 'start-ldr') {
+                    // Tamu menerima sinyal start dari host, otomatis masuk ke permainan
                     startGame(3);
                 } else if (data.type === 'roll-dice') {
                     executeMove(data.player, data.steps, data.targetPos);
